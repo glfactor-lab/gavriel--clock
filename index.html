@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f766e" />
+    <meta name="description" content="A private dashboard for work clock-in and clock-out tracking." />
+    <title>Gavriel Clock</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="Gavriel Clock">
+      <section class="top-clock" aria-label="Current time and status">
+        <div class="top-row">
+          <div>
+            <p class="app-name">Gavriel Clock</p>
+            <p class="current-date" id="currentDate">Loading...</p>
+          </div>
+          <div class="status-pill" id="statusText">Clocked Out</div>
+        </div>
+        <p class="current-time" id="currentTime">--:--:--</p>
+        <div class="shift-strip">
+          <div>
+            <span>Live shift</span>
+            <strong id="shiftTimer">00:00:00</strong>
+          </div>
+          <div>
+            <span>Clocked in</span>
+            <strong id="clockInTime">--</strong>
+          </div>
+        </div>
+        <section class="actions" aria-label="Clock actions">
+          <button class="clock-in" id="clockInButton" type="button">Clock In</button>
+          <button class="clock-out" id="clockOutButton" type="button" disabled>Clock Out</button>
+        </section>
+      </section>
+
+      <section class="smart-card" id="smartClockOutCard" hidden>
+        <span>Smart clock-out</span>
+        <strong id="nextClockOut">Next clock out: --</strong>
+        <p id="remainingTime">Countdown: 00:00:00</p>
+      </section>
+
+      <nav class="tabs" aria-label="Dashboard sections">
+        <button class="tab active" data-view="overview" type="button">Overview</button>
+        <button class="tab" data-view="time" type="button">Time Overview</button>
+        <button class="tab" data-view="history" type="button">Shift History</button>
+        <button class="tab" data-view="settings" type="button">Settings</button>
+      </nav>
+
+      <section class="view active" id="overviewView">
+        <div class="section-title">
+          <span>Overview</span>
+          <strong>Work patterns</strong>
+        </div>
+        <div class="metric-grid" id="overviewMetrics"></div>
+
+        <section class="earnings-card" id="earningsCard" hidden>
+          <div class="section-title">
+            <span>Earnings</span>
+            <strong>Private salary view</strong>
+          </div>
+          <div class="metric-grid">
+            <article>
+              <span>Hourly</span>
+              <strong id="hourlyRate">$0.00</strong>
+            </article>
+            <article>
+              <span>Daily</span>
+              <strong id="dailyEstimate">$0.00</strong>
+            </article>
+            <article>
+              <span>Weekly</span>
+              <strong id="weeklyEstimate">$0.00</strong>
+            </article>
+            <article>
+              <span>Month-to-date</span>
+              <strong id="monthToDateEarnings">$0.00</strong>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="timeView">
+        <div class="section-title">
+          <span>Time Overview</span>
+          <strong>This week and month</strong>
+        </div>
+        <div class="overview-grid">
+          <article class="summary-panel">
+            <div class="panel-head">
+              <span>Weekly Summary</span>
+              <strong id="weekTotal">00:00:00</strong>
+            </div>
+            <div class="daily-list" id="dailyList"></div>
+          </article>
+
+          <article class="summary-panel">
+            <div class="panel-head">
+              <span>Monthly Summary</span>
+              <strong id="monthTotal">00:00:00</strong>
+            </div>
+            <div class="monthly-facts">
+              <p><span>Days worked</span><strong id="daysWorked">0</strong></p>
+              <p id="monthlyEarningsRow" hidden><span>Estimated earnings</span><strong id="monthlyEarnings">$0.00</strong></p>
+            </div>
+          </article>
+        </div>
+        <article class="summary-panel">
+          <div class="panel-head">
+            <span>Mini Calendar</span>
+            <strong id="calendarMonth">Month</strong>
+          </div>
+          <div class="mini-calendar" id="miniCalendar"></div>
+          <p class="selected-day" id="selectedDaySummary">Select a day to view hours.</p>
+        </article>
+      </section>
+
+      <section class="view" id="historyView">
+        <div class="section-title">
+          <span>Shift History</span>
+          <strong>All recorded shifts</strong>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+
+      <section class="view" id="settingsView">
+        <div class="section-title">
+          <span>Settings</span>
+          <strong>Privacy and preferences</strong>
+        </div>
+        <article class="settings-card">
+          <div>
+            <span>Privacy</span>
+            <strong>Show Earnings</strong>
+            <p>When off, salary and earnings are hidden everywhere.</p>
+          </div>
+          <label class="switch">
+            <input id="showEarningsToggle" type="checkbox" />
+            <span></span>
+          </label>
+        </article>
+        <article class="settings-card muted-card">
+          <div>
+            <span>App Preferences</span>
+            <strong>Future options</strong>
+            <p>Notifications, themes, and sync controls can live here later.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
