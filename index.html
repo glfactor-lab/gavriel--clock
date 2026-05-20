@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="theme-color" content="#2563eb" />
     <meta name="description" content="A private dashboard for work clock-in and clock-out tracking." />
     <title>Gavriel Clock</title>
     <link rel="manifest" href="manifest.webmanifest" />
@@ -11,9 +11,29 @@
     <link rel="apple-touch-icon" href="assets/icon.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="launch-active">
+    <section class="launch-screen" id="launchScreen" aria-label="Opening Gavriel Clock" role="button" tabindex="0">
+      <div class="launch-atmosphere" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="launch-card">
+        <div class="launch-mark" aria-hidden="true">
+          <span></span>
+        </div>
+        <p class="launch-kicker">Focused work, gently kept</p>
+        <h1>Gavriel Clock</h1>
+        <p class="launch-subtitle">A calm place to begin your workday.</p>
+        <div class="launch-cue" aria-hidden="true">
+          <span></span>
+          <small>Tap anywhere</small>
+        </div>
+      </div>
+    </section>
+
     <main class="app" aria-label="Gavriel Clock">
-      <section class="top-clock" aria-label="Current time and status">
+      <section class="top-clock" id="topClock" aria-label="Current time and status">
         <div class="top-row">
           <div>
             <p class="app-name">Gavriel Clock</p>
@@ -21,7 +41,7 @@
           </div>
           <div class="status-pill" id="statusText">Clocked Out</div>
         </div>
-        <p class="current-time" id="currentTime">--:--:--</p>
+        <p class="current-time" id="currentTime">--:--</p>
         <div class="shift-strip">
           <div>
             <span>Live shift</span>
@@ -44,114 +64,118 @@
         <p id="remainingTime">Countdown: 00:00:00</p>
       </section>
 
-      <nav class="tabs" aria-label="Dashboard sections">
-        <button class="tab active" data-view="overview" type="button">Overview</button>
-        <button class="tab" data-view="time" type="button">Time Overview</button>
-        <button class="tab" data-view="history" type="button">Shift History</button>
+      <nav class="tabs" aria-label="App sections">
+        <button class="tab" data-view="history" type="button">History</button>
         <button class="tab" data-view="settings" type="button">Settings</button>
       </nav>
 
-      <section class="view active" id="overviewView">
-        <div class="section-title">
-          <span>Overview</span>
-          <strong>Work patterns</strong>
-        </div>
-        <div class="metric-grid" id="overviewMetrics"></div>
-
-        <section class="earnings-card" id="earningsCard" hidden>
-          <div class="section-title">
-            <span>Earnings</span>
-            <strong>Private salary view</strong>
-          </div>
-          <div class="metric-grid">
-            <article>
-              <span>Hourly</span>
-              <strong id="hourlyRate">$0.00</strong>
-            </article>
-            <article>
-              <span>Daily</span>
-              <strong id="dailyEstimate">$0.00</strong>
-            </article>
-            <article>
-              <span>Weekly</span>
-              <strong id="weeklyEstimate">$0.00</strong>
-            </article>
-            <article>
-              <span>Month-to-date</span>
-              <strong id="monthToDateEarnings">$0.00</strong>
-            </article>
-          </div>
-        </section>
-      </section>
-
-      <section class="view" id="timeView">
-        <div class="section-title">
-          <span>Time Overview</span>
-          <strong>This week and month</strong>
-        </div>
-        <div class="overview-grid">
-          <article class="summary-panel">
-            <div class="panel-head">
-              <span>Weekly Summary</span>
-              <strong id="weekTotal">00:00:00</strong>
-            </div>
-            <div class="daily-list" id="dailyList"></div>
-          </article>
-
-          <article class="summary-panel">
-            <div class="panel-head">
-              <span>Monthly Summary</span>
-              <strong id="monthTotal">00:00:00</strong>
-            </div>
-            <div class="monthly-facts">
-              <p><span>Days worked</span><strong id="daysWorked">0</strong></p>
-              <p id="monthlyEarningsRow" hidden><span>Estimated earnings</span><strong id="monthlyEarnings">$0.00</strong></p>
-            </div>
-          </article>
-        </div>
-        <article class="summary-panel">
-          <div class="panel-head">
-            <span>Mini Calendar</span>
-            <strong id="calendarMonth">Month</strong>
-          </div>
-          <div class="mini-calendar" id="miniCalendar"></div>
-          <p class="selected-day" id="selectedDaySummary">Select a day to view hours.</p>
-        </article>
-      </section>
-
       <section class="view" id="historyView">
         <div class="section-title">
-          <span>Shift History</span>
-          <strong>All recorded shifts</strong>
+          <span>History</span>
+          <strong>Calendar</strong>
+        </div>
+        <div class="section-title compact-title action-title">
+          <div>
+            <span>Shift Overview</span>
+            <strong>Tap a day for details</strong>
+          </div>
+          <button class="subtle-button" id="addShiftButton" type="button">Add Shift</button>
         </div>
         <div class="history-list" id="historyList"></div>
       </section>
 
       <section class="view" id="settingsView">
-        <div class="section-title">
-          <span>Settings</span>
-          <strong>Privacy and preferences</strong>
+        <div class="settings-grid">
+          <article class="settings-panel">
+            <div class="settings-panel-head">
+              <span>Appearance</span>
+              <strong>Color</strong>
+            </div>
+            <div class="setting-field">
+              Accent
+              <div class="swatch-row" id="accentChoices" aria-label="Accent color"></div>
+            </div>
+          </article>
+
         </div>
-        <article class="settings-card">
-          <div>
-            <span>Privacy</span>
-            <strong>Show Earnings</strong>
-            <p>When off, salary and earnings are hidden everywhere.</p>
-          </div>
-          <label class="switch">
-            <input id="showEarningsToggle" type="checkbox" />
-            <span></span>
-          </label>
-        </article>
-        <article class="settings-card muted-card">
-          <div>
-            <span>App Preferences</span>
-            <strong>Future options</strong>
-            <p>Notifications, themes, and sync controls can live here later.</p>
-          </div>
-        </article>
       </section>
     </main>
+
+    <dialog id="notesDialog">
+      <form class="dialog-card" method="dialog">
+        <div class="dialog-head">
+          <div>
+            <span>Shift Detail</span>
+            <strong id="notesDialogTitle">Selected day</strong>
+          </div>
+          <button class="ghost-button" value="cancel" type="submit">Close</button>
+        </div>
+        <div class="dialog-shifts" id="notesShiftDetails"></div>
+        <label class="notes-label">
+          Notes
+          <textarea id="notesField" rows="5" placeholder="Worked remotely&#10;Late due to train&#10;Meeting day"></textarea>
+        </label>
+        <button class="clock-in" id="saveNotesButton" type="button">Save Notes</button>
+      </form>
+    </dialog>
+
+    <dialog id="confirmDeleteDialog">
+      <form class="dialog-card compact-dialog" method="dialog">
+        <strong>Are you sure you want to delete this shift?</strong>
+        <p class="delete-shift-detail" data-delete-shift-detail></p>
+        <p class="current-date">This will remove the shift from your history.</p>
+        <div class="dialog-actions">
+          <button class="ghost-button" value="cancel" type="submit">Cancel</button>
+          <button class="clock-out" id="confirmDeleteButton" type="button">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="editShiftDialog">
+      <form class="dialog-card" method="dialog">
+        <div class="dialog-head">
+          <div>
+            <span>Edit Shift</span>
+            <strong id="editShiftDialogTitle">Selected shift</strong>
+          </div>
+          <button class="ghost-button" value="cancel" type="submit">Close</button>
+        </div>
+        <div class="edit-shift-grid">
+          <label>
+            Date
+            <input id="editDateField" type="date" />
+          </label>
+          <label>
+            Clock in
+            <input id="editClockInField" type="time" />
+          </label>
+          <label>
+            Clock out
+            <input id="editClockOutField" type="time" />
+          </label>
+          <label>
+            Break minutes
+            <input id="editBreakField" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+          </label>
+          <label>
+            Adjustment minutes
+            <input id="editAdjustmentField" type="number" step="1" inputmode="numeric" placeholder="0" />
+          </label>
+        </div>
+        <p class="field-hint">Break minutes subtract from the shift. Adjustment minutes can be positive for stayed late or negative for left early.</p>
+        <label class="notes-label">
+          Notes
+          <textarea id="editShiftNotesField" rows="4" placeholder="Worked remotely&#10;Late due to train&#10;Meeting day"></textarea>
+        </label>
+        <p class="form-error" id="editShiftError" aria-live="polite"></p>
+        <button class="clock-in" id="saveShiftButton" type="button">Save Shift</button>
+      </form>
+    </dialog>
+
+    <div class="undo-toast" id="undoToast" hidden>
+      <span>Shift deleted</span>
+      <button id="undoDeleteButton" type="button">Undo</button>
+    </div>
 
     <script src="app.js"></script>
   </body>
