@@ -1,0 +1,22 @@
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+
+[marketplaces.openai-bundled]
+last_updated = "2026-05-20T04:47:09Z"
+source_type = "local"
+source = '\\?\C:\Users\gavri\.codex\.tmp\bundled-marketplaces\openai-bundled'
+
+[windows]
+sandbox = "elevated"
+
+[projects.'c:\users\gavri\documents\codex\2026-05-07\connect-github']
+trust_level = "trusted"
+
+[projects.'c:\users\gavri\documents\codex\2026-05-06\hi-i-would-like-to-build']
+trust_level = "trusted"
+
+[projects.'c:\users\gavri\documents\codex\2026-05-20\refactor-the-gavriel-clock-color-and']
+trust_level = "trusted"
+
+[plugins."browser-use@openai-bundled"]
+enabled = true
